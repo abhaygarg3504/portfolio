@@ -19,7 +19,7 @@ const Navbar = () => {
   const { theme, fontColor } = useContext(ThemeContext);
 
   return (
-    <nav className={`fixed top-0 w-full ${theme === "dark" ? "bg-gray-900" : "bg-white"} shadow-md z-50`}>
+    <nav className={`fixed top-0 w-full ${theme === "dark" ? "bg-black" : "bg-white"} shadow-md z-50`}>
       <div className='container mx-auto px-4 py-4 flex justify-between items-center'>
         <img src={logo} alt='Website Logo' className='h-10' />
 

@@ -15,7 +15,7 @@ const Services = () => {
       transition={{ duration: 1 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className={`px-4 md:px-8 lg:px-16 py-10 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}  // Conditional background and text color
+      className={`px-4 md:px-8 lg:px-16 py-10 ${theme === 'dark' ? ' bg-gradient-to-br from-black via-gray-900 to-purple-600 text-white' : 'bg-white text-black'}`}  // Conditional background and text color
     >
       <h1 className={`flex flex-col items-center justify-center font-bold text-3xl md:text-4xl mt-10 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
         My Coding Profiles

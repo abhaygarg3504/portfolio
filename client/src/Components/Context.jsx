@@ -48,7 +48,7 @@ const Context = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       className={`flex flex-col items-center px-6 md:px-12 lg:px-24 py-16 
-        ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}
+        ${theme === 'dark' ? ' bg-gradient-to-br from-black via-gray-900 to-purple-600 text-white' : 'bg-white text-gray-900'}`}
     >
       <h1 className={`text-3xl md:text-4xl font-semibold text-center mb-6 
         ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>

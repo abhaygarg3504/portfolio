@@ -20,7 +20,7 @@ const Projects = () => {
   return (
     <motion.div
       id='project'
-      className={`px-4 py-10 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}
+      className={`px-4 py-10 ${theme === 'dark' ? ' bg-gradient-to-br from-black via-gray-900 to-purple-600 text-white' : 'bg-white text-black'}`}
     >
       <h1 className='flex flex-col items-center justify-center font-bold text-4xl mt-10'>
         Projects

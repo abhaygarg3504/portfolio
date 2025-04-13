@@ -15,7 +15,7 @@ const About = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       className={`flex flex-col items-center justify-center gap-20 py-16  px-6 
-        ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}
+        ${theme === 'dark' ? ' bg-gradient-to-br from-black via-gray-900 to-purple-600 text-white' : 'bg-white text-gray-900'}`}
     >
       {/* Title */}
       <div className="relative">

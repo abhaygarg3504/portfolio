@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Navbar from './Components/Navbar'
 import Hero from './Components/Hero'
 import About from './Components/About'
@@ -6,8 +6,10 @@ import Services from './Components/Services'
 import Projects from './Components/Projects'
 import Context from './Components/Context'
 import Footer from './Components/Footer'
+import { ThemeContext } from './Context/DarkLightMode'
 
 const App = () => {
+  const {theme, fontColor} = useContext(ThemeContext)
   return (
     <div className='bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen'> 
     <Navbar/>

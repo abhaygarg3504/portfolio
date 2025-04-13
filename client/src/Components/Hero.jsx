@@ -10,7 +10,7 @@ const Hero = () => {
     <motion.div 
       id='home' 
       className={`flex flex-col items-center gap-6 text-center px-4 md:px-12 lg:px-24 py-16 
-        ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}
+        ${theme === 'dark' ? ' bg-gradient-to-br from-black via-gray-900 to-purple-600 text-white' : 'bg-white text-black'}`}
     >
       {/* Profile Image */}
       <img 
