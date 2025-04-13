@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import user from "../assets/user_icon.svg";
 import { motion } from 'motion/react'
+import { ThemeContext } from '../Context/DarkLightMode';
 const scrollToSection = (id) => {
       document.getElementById(id).scrollIntoView({ behavior: "smooth" });
     };
 
 const Footer = () => {
+  const {theme} = useContext(ThemeContext)
+
   return (
-    <footer className='bg-gray-800/70 border border-gray-700 px-6 md:px-12 py-8'>
+    <footer className={ theme == "dark" ? "bg-black border-black px-6 md:px-12 py-8 " : `bg-gray-800/70 border border-gray-700 px-6 md:px-12 py-8`}>
       <div className='container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center'>
 
        <div className='text-center md:text-left'>
