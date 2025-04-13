@@ -7,13 +7,13 @@ export const ThemeProvider = ({ children }) => {
   const theme = toggle ? "dark" : "light";
   const fontColor = toggle ? "text-white" : "text-black";
 
-  useEffect(() => {
-    if (toggle) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [toggle]);
+  // useEffect(() => {
+  //   if (toggle) {
+  //     document.documentElement.classList.add("dark");
+  //   } else {
+  //     document.documentElement.classList.remove("dark");
+  //   }
+  // }, [toggle]);
 
   const toggleTheme = () => {
     setToggle((prev) => !prev);
