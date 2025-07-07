@@ -2,6 +2,10 @@ import React, { useContext } from 'react';
 import user from "../assets/user_icon.svg";
 import { motion } from 'motion/react'
 import { ThemeContext } from '../Context/DarkLightMode';
+import linkdein from "../assets/linkdein.svg";
+import instagram from "../assets/instagram.svg";
+import twitter from "../assets/twiter.svg";
+
 const scrollToSection = (id) => {
       document.getElementById(id).scrollIntoView({ behavior: "smooth" });
     };
@@ -23,13 +27,13 @@ const Footer = () => {
           <p className='text-lg text-white'>Connect with Me</p>
           <div className='flex gap-4'>
             <a href="https://www.instagram.com/abhaygarg_354/" target='_blank' rel='noopener noreferrer'>
-              <img className='w-8 h-8' src='https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg' alt='Instagram' />
+              <img className='w-8 h-8' src={instagram} alt='Instagram' />
             </a>
             <a href="https://x.com/abhayga615785" target='_blank' rel='noopener noreferrer'>
-              <img className='w-8 h-8' src='https://upload.wikimedia.org/wikipedia/commons/1/19/X_logo_twitter_new_brand_icon.svg' alt='Twitter' />
+              <img className='w-8 h-8' src={twitter} alt='Twitter' />
             </a>
             <a href="https://www.linkedin.com/in/abhay-garg-a49817257/" target='_blank' rel='noopener noreferrer'>
-              <img className='w-8 h-8' src='https://upload.wikimedia.org/wikipedia/commons/f/f7/Linkedin-brands-solid.svg' alt='LinkedIn' />
+              <img className='w-8 h-8' src={linkdein} alt='LinkedIn' />
             </a>
           </div>
         </div>

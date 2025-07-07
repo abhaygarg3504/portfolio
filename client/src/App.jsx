@@ -7,19 +7,19 @@ import Projects from './Components/Projects'
 import Context from './Components/Context'
 import Footer from './Components/Footer'
 import { ThemeContext } from './Context/DarkLightMode'
+import { Route, Routes } from 'react-router-dom'
 
 const App = () => {
   const {theme, fontColor} = useContext(ThemeContext)
   return (
     <div className='bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen'> 
-    <Navbar/>
-      <Hero/>
-      <About/>
-      <Services/>
-      <Projects/>
-      <Context/>
-      <Footer/>
-      
+    <Routes>
+      <Route path='/' element={<Hero/>}/>
+      <Route path='/about' element={<About/>}/>
+      <Route path='/project' element={<Projects/>}/>
+      <Route path='/contact' element={<Context/>}/>
+      <Route path='/profile' element={<Services/>}/>
+    </Routes>  
     </div>
   )
 }
