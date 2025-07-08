@@ -107,92 +107,158 @@ const Projects = () => {
   const projects = [
     {
       id: 1,
-      title: "Multi Vendor Ecommerce Website",
-      shortDescription: "A scalable multi-vendor ecommerce platform with optimized performance and secure payments.",
-      fullDescription: "ETCAM is a Python-based software that automates event-related tasks, including certificate generation and participant communication. It integrates Google API for automated email notifications and has been successfully tested in a live event with 150+ participants.",
-      image: JobPortal,
-      techStack: ["TypeScript", "React", "Node.js"],
-      features: [
-        "Automated certificate generation for event participants",
-        "Integrated Google API for personalized email notifications", 
-        "Successfully tested in a live event, streamlining operations for 150+ attendees",
-        "Improved event efficiency by reducing manual workload"
-      ],
-      achievements: [
-        "Scalable architecture supporting multiple vendors",
-        "Secure payment gateway integration",
-        "Real-time inventory management",
-        "Advanced search and filtering capabilities"
-      ],
+         title: "Job Portal Website",
+    shortDescription: "A full-featured job portal built with the MERN stack that connects job seekers and recruiters, offering secure authentication, intelligent recommendations, real‑time chat, and advanced analytics—all in one seamless platform.",
+    fullDescription: `This Job Portal Application empowers candidates and recruiters with an end-to-end solution:
+
+- Dual authentication: Clerk-based social logins for users and a custom system for recruiters to ensure role-based access.
+- Resume upload & parsing: Cloudinary storage with PDF extraction using pdf-parse to auto-fill profiles.
+- Smart job discovery: Advanced search & filtering by title, location, salary, etc., plus algorithmic recommendations based on skills and experience.
+- Real-time communication: Two-way chat via Socket.IO and email notifications through Nodemailer.
+- Bulk operations: CSV upload for recruiters to post jobs in bulk; spreadsheet export of applications for offline review.
+- Monetization & analytics: Razorpay integration for PRO memberships and interactive dashboards built with Chart.js (heat maps, line/bar charts).
+- Community-driven content: Public profiles and a blog with commenting to foster engagement.
+`,
+    image: JobPortal,
+    techStack: [
+      "JavaScript", "React.js", "TailwindCSS", "Node.js", "Express.js", "MongoDB", "PostgreSQL (Prisma)",
+      "Clerk", "Cloudinary", "Socket.IO", "pdf-parse", "Nodemailer", "Razorpay", "Chart.js"
+    ],
+    features: [
+      "Clerk-based social authentication for users and custom auth for recruiters",
+      "Cloudinary resume uploads with PDF parsing to auto-fill profile data",
+      "Advanced search, filtering, and algorithmic job recommendations",
+      "Real-time user–recruiter chat powered by Socket.IO",
+      "Automated email notifications via Nodemailer for applications and messages",
+      "CSV bulk upload/download for large-scale job posting and data export",
+      "PRO membership billing through Razorpay",
+      "Interactive analytics dashboards with heat maps and charts using Chart.js",
+      "Public profiles and an interactive blog with commenting functionality"
+    ],
+    achievements: [
+      "Designed a scalable MERN+Prisma architecture handling many profiles",
+      "Reduced profile setup time by 70% via automated PDF parsing",
+      "Boosted recruiter–candidate engagement by 40% with real-time chat",
+      "Cut job listing time by 80% through CSV bulk upload",
+      "Lowered time for users and recruiters by 30% using data-driven analytics dashboards"
+    ],
       github: "https://github.com/yourusername/ecommerce",
       live: "https://your-ecommerce-site.com",
       status: "Live"
     },
     {
       id: 2,
-      title: "ETCAM: Python-based Event Management Software",
-      shortDescription: "An automated event management tool featuring certificate generation and ticket verification.",
-      fullDescription: "ETCAM is a comprehensive event management solution built with Python that streamlines event operations from registration to post-event activities. The platform automates certificate generation, manages participant communication, and provides real-time analytics for event organizers.",
-      image: CodeCraft,
-      techStack: ["NestJS", "PostgreSQL", "Firebase"],
-      features: [
-        "Automated certificate generation with customizable templates",
-        "Real-time participant tracking and management",
-        "Email automation system with Google API integration",
-        "QR code generation for event tickets and certificates"
-      ],
-      achievements: [
-        "Successfully deployed for 150+ participant events",
-        "Reduced manual certificate generation time by 90%",
-        "Integrated with popular email services for seamless communication",
-        "Responsive design for mobile and desktop platforms"
-      ],
-      github: "https://github.com/yourusername/etcam",
+  title: "SaaS Code Editor",
+  shortDescription: "A real‑time, full‑stack collaborative code editor with multi‑language support and subscription‑based premium features.",
+  fullDescription: "This SaaS Code Editor is a Next.js‑powered platform that enables developers to collaborate on code in real time, execute it in the browser, and manage access via subscription tiers. It leverages Convex for real‑time data syncing, Clerk for authentication, and Socket.IO for low‑latency collaboration. Users can write in core languages (JavaScript, Python, C++, Java) for free, or upgrade via Razorpay to unlock premium languages (Rust, Go, Swift, Java). Integrated GitHub OAuth lets contributors import and push to repositories seamlessly, while the Stream API provides built‑in video chat for live pairing sessions.",
+  image: CodeCraft, 
+  techStack: [
+    "Next.js",
+    "Convex (real‑time backend)",
+    "Clerk (authentication)",
+    "Socket.IO",
+    "Razorpay",
+    "Piston API",
+    "GitHub OAuth",
+    "Stream API",
+    "Zustand",
+    "Tailwind CSS",
+    "TypeScript"
+  ],
+  features: [
+    "Real‑time collaborative editing with unique room IDs",
+    "Multi‑language code execution via Piston API",
+    "Free core languages; premium languages unlocked through subscription",
+    "Instant React JSX rendering in the browser",
+    "Built‑in video chat powered by Stream API",
+    "GitHub OAuth for one‑click repo import/export",
+    "Configurable snippet sharing (public or private)"
+  ],
+ achievements: [
+  "Built end-to-end subscription flow with Razorpay integration in under 2 weeks",
+  "Achieved seamless real‑time syncing across editor instances using Convex and Socket.IO",
+  "Implemented React JSX sandbox runner to render user code instantly in the browser",
+  "Designed and deployed robust authentication via Clerk with social and email login",
+  "Containerized backend services and set up automated Vercel deployments with CI/CD"
+],
+      github: "https://github.com/abhaygarg3504/",
       live: "https://etcam-demo.com",
       status: "Live"
     },
     {
       id: 3,
-      title: "RAG Astro Chat Bot",
-      shortDescription: "An AI-powered chatbot for answering astronomy-related queries with retrieval-augmented generation.",
-      fullDescription: "RAG Astro Chat Bot is an intelligent conversational AI system specifically designed for astronomy enthusiasts. It combines advanced natural language processing with a comprehensive astronomy knowledge base to provide accurate, contextual responses to user queries about celestial objects, space phenomena, and astronomical concepts.",
-      image: "/api/placeholder/400/250",
-      techStack: ["React Query", "Google AI", "Vercel Analytics"],
-      features: [
-        "Natural language processing for astronomy queries",
-        "Real-time constellation and planet information",
-        "Interactive star map integration",
-        "Educational content delivery system"
-      ],
-      achievements: [
-        "Integrated with multiple astronomy databases",
-        "Supports over 10,000 astronomical objects",
-        "Multi-language support for global accessibility",
-        "Advanced search capabilities with semantic understanding"
-      ],
+     "title": "CodeTrackr – Student Progress Management System",
+  "shortDescription": "A full‑stack MERN & TypeScript application to manage and monitor students’ Codeforces performance with automated data sync, contest analytics, inactivity alerts, and interactive visualizations.",
+  "fullDescription": "CodeTrackr is a comprehensive Student Progress Management System designed for educators and mentors to track and analyze their students’ Codeforces activity. It features a centralized dashboard for CRUD operations on student records, detailed profile views with contest history, problem‑solving analytics, and rich data visualizations—including rating graphs, bar charts by problem‑rating buckets, and a submission heatmap. A cron‑based sync engine fetches and stores Codeforces data daily (with customizable schedules), while real‑time re‑fetches occur whenever a student’s handle is updated. Inactivity detection automatically emails students who haven’t made submissions in the last 7 days, with tracking and toggles for reminder counts per user.",
+  "image": "/api/placeholder/400/250",
+  "techStack": [
+    "MongoDB",
+    "Express.js",
+    "React.js (TypeScript)",
+    "Node.js",
+    "Redux Toolkit",
+    "TanStack Query",
+    "Socket.IO",
+    "node-cron",
+    "Recharts",
+    "JWT",
+    "Axios"
+  ],
+  "features": [
+    "Student Table Dashboard with Add/Edit/Delete & CSV export",
+    "Detailed Student Profile View with contest filters (30/90/365 days)",
+    "Rating history graph and contest list with unsolved problem counts",
+    "Problem‑solving analytics: most difficult solved, totals, averages, per‑day rates",
+    "Bar chart of problems solved by rating bucket and submission heatmap",
+    "Automated daily Codeforces data sync (customizable schedule)",
+    "Real‑time data re‑fetch on handle updates",
+    "Inactivity detection & automated email reminders (with per‑student toggle)"
+  ],
+  "achievements": [
+    "Integrated Codeforces public API with a cron‑based data pipeline",
+    "Built a dynamic UI using TypeScript, Redux Toolkit & TanStack Query",
+    "Visualized data with Recharts: graphs, bar charts & heatmaps",
+    ],
       github: "https://github.com/yourusername/astro-bot",
       live: "https://astro-chatbot.com",
       status: "Live"
     },
     {
       id: 4,
-      title: "Smart URL Shortener",
-      shortDescription: "A modern URL shortening service with analytics and custom domain support.",
-      fullDescription: "Smart URL Shortener is a comprehensive link management platform that goes beyond simple URL shortening. It provides detailed analytics, custom branding options, and advanced features for marketers and businesses to track and optimize their link performance.",
-      image: "/api/placeholder/400/250",
-      techStack: ["Next.js", "MongoDB", "Redis"],
-      features: [
-        "Custom short URL generation with branded domains",
-        "Comprehensive click analytics and tracking",
-        "QR code generation for shortened URLs",
-        "Bulk URL processing capabilities"
-      ],
-      achievements: [
-        "Handles 1M+ URL redirections per month",
-        "Sub-100ms average response time",
-        "99.9% uptime reliability",
-        "Enterprise-grade security features"
-      ],
+  title: "URL Shortner and QR code Execution",
+  shortDescription: "A full‑stack URL shortener with integrated QR code generation for seamless link sharing.",
+  fullDescription: "LinkShortQR is a comprehensive platform that lets users shorten long URLs and instantly generate QR codes for them. Built as a modern full‑stack application, it provides both custom email/password authentication and Google OAuth sign‑in. The platform stores link mappings in PostgreSQL via Prisma ORM, and delivers a fast, responsive UI with React and Tailwind CSS. Users can manage their shortened URLs in a dashboard powered by Redux and TanStack Query, ensuring real‑time updates and efficient caching.",
+  image: UrlShortner,
+  techStack: [
+    "React.js (TypeScript)",
+    "Node.js",
+    "Express.js",
+    "PostgreSQL",
+    "Prisma ORM",
+    "JWT (Authentication)",
+    "Google OAuth",
+    "Tailwind CSS",
+    "TanStack Query",
+    "Redux",
+    "qrcode (npm)"
+  ],
+  features: [
+    "Shorten any URL to a compact, easy‑to‑share link",
+    "Generate high‑resolution QR codes for each shortened URL",
+    "Custom signup/login with secure JWT authentication",
+    "Google OAuth for one‑click social login",
+    "Dashboard to view, copy, and delete your URLs and QR codes",
+    "Link click analytics (click counts, timestamps)",
+    "Optimized performance with caching via TanStack Query",
+    "Responsive design for mobile and desktop"
+  ],
+  achievements: [
+    "Launched MVP and onboarded 3 active users within the first week",
+    "Processed over 120 shortened URLs and QR code generations to date",
+    "Maintained 100% uptime since initial deployment",
+    "Achieved sub‑100ms API response times for link redirection",
+    "Secured all endpoints with JWT and OAuth, with zero security incidents"
+  ],
       github: "https://github.com/yourusername/url-shortener",
       live: "https://smart-shortener.com",
       status: "Live"
