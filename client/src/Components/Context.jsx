@@ -18,23 +18,20 @@ import github from "../assets/github.svg";
 import { Link } from 'react-router-dom';
 
 const Context = () => {
-  const webform_id = "your_web_form_id"; // Replace with your actual web form ID
+  const webform_id = import.meta.env.VITE_WEB_FORM; // Replace with your actual web form ID
   const [result, setResult] = useState("");
   const { theme } = useContext(ThemeContext);
   const globeRef = useRef(null);
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
   const animationRef = useRef(null);
-  const isInitialized = useRef(false); // Add flag to prevent multiple initializations
+  const isInitialized = useRef(false);
 
   useEffect(() => {
-    // Prevent multiple initializations
     if (!globeRef.current || isInitialized.current) return;
     
-    // Set initialization flag
     isInitialized.current = true;
 
-    // Clean up any existing content
     while (globeRef.current.firstChild) {
       globeRef.current.removeChild(globeRef.current.firstChild);
     }
@@ -62,19 +59,12 @@ const Context = () => {
     // Create 7 continents with realistic positioning
     const createContinents = () => {
       const continents = [
-        // North America
         { name: 'North America', lat: 45, lon: -100, color: 0x00ff88, points: 300 },
-        // South America  
         { name: 'South America', lat: -15, lon: -60, color: 0x00ccff, points: 250 },
-        // Europe
         { name: 'Europe', lat: 50, lon: 10, color: 0xff6600, points: 200 },
-        // Africa
         { name: 'Africa', lat: 0, lon: 20, color: 0xff0066, points: 350 },
-        // Asia
         { name: 'Asia', lat: 35, lon: 100, color: 0x66ff00, points: 400 },
-        // Australia
         { name: 'Australia', lat: -25, lon: 135, color: 0xffff00, points: 150 },
-        // Antarctica
         { name: 'Antarctica', lat: -80, lon: 0, color: 0x00ffff, points: 200 }
       ];
 
@@ -86,7 +76,6 @@ const Context = () => {
         const colors = [];
         
         for (let i = 0; i < continent.points; i++) {
-          // Create continent shape with some randomness
           const latOffset = (Math.random() - 0.5) * 25;
           const lonOffset = (Math.random() - 0.5) * 40;
           
@@ -101,7 +90,6 @@ const Context = () => {
           
           positions.push(x, y, z);
           
-          // Use continent-specific color with some variation
           const color = new THREE.Color(continent.color);
           const intensity = 0.7 + Math.random() * 0.3;
           colors.push(color.r * intensity, color.g * intensity, color.b * intensity);
@@ -135,26 +123,21 @@ const Context = () => {
       
       for (let i = 0; i < lineCount; i++) {
         const curve = new THREE.EllipseCurve(
-          0, 0,            // Center
-          1.2, 1.2,        // X radius, Y radius
-          0, 2 * Math.PI,  // Start angle, end angle
-          false,           // Is clockwise
-          0                // Rotation
+          0, 0, 1.2, 1.2, 0, 2 * Math.PI, false, 0
         );
         
         const points = curve.getPoints(100);
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
         
-        // Convert 2D points to 3D sphere surface
         const positions = geometry.attributes.position.array;
         for (let j = 0; j < positions.length; j += 3) {
           const angle = (j / 3) / 100 * Math.PI * 2;
           const lat = Math.sin(angle + i * 0.5) * 0.8;
           const lon = angle + i * Math.PI / 6;
           
-          positions[j] = Math.cos(lat) * Math.cos(lon) * 1.05;     // x
-          positions[j + 1] = Math.sin(lat);                        // y
-          positions[j + 2] = Math.cos(lat) * Math.sin(lon) * 1.05; // z
+          positions[j] = Math.cos(lat) * Math.cos(lon) * 1.05;
+          positions[j + 1] = Math.sin(lat);
+          positions[j + 2] = Math.cos(lat) * Math.sin(lon) * 1.05;
         }
         
         geometry.attributes.position.needsUpdate = true;
@@ -233,22 +216,74 @@ const Context = () => {
 
     camera.position.z = 3;
 
-    // Mouse interaction
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetRotationX = 0;
-    let targetRotationY = 0;
-
-    const handleMouseMove = (event) => {
+    // Enhanced mouse interaction for free rotation
+    let isDragging = false;
+    let previousMousePosition = { x: 0, y: 0 };
+    let rotationVelocity = { x: 0, y: 0 };
+    let currentRotation = { x: 0, y: 0 };
+    
+    const handleMouseDown = (event) => {
+      isDragging = true;
       const rect = renderer.domElement.getBoundingClientRect();
-      mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      mouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-      
-      targetRotationX = mouseY * 0.4;
-      targetRotationY = mouseX * 0.4;
+      previousMousePosition = {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      };
+      renderer.domElement.style.cursor = 'grabbing';
     };
 
+    const handleMouseMove = (event) => {
+      if (!isDragging) return;
+      
+      const rect = renderer.domElement.getBoundingClientRect();
+      const currentMousePosition = {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      };
+      
+      const deltaMove = {
+        x: currentMousePosition.x - previousMousePosition.x,
+        y: currentMousePosition.y - previousMousePosition.y
+      };
+      
+      // Convert mouse movement to rotation
+      const rotationSpeed = 0.005;
+      rotationVelocity.x = deltaMove.y * rotationSpeed;
+      rotationVelocity.y = deltaMove.x * rotationSpeed;
+      
+      // Apply rotation
+      currentRotation.x += rotationVelocity.x;
+      currentRotation.y += rotationVelocity.y;
+      
+      // Apply rotation to globe and continents
+      globe.rotation.x = currentRotation.x;
+      globe.rotation.y = currentRotation.y;
+      continentGroup.rotation.x = currentRotation.x;
+      continentGroup.rotation.y = currentRotation.y;
+      
+      previousMousePosition = currentMousePosition;
+    };
+
+    const handleMouseUp = () => {
+      isDragging = false;
+      renderer.domElement.style.cursor = 'grab';
+    };
+
+    const handleMouseEnter = () => {
+      renderer.domElement.style.cursor = 'grab';
+    };
+
+    const handleMouseLeave = () => {
+      isDragging = false;
+      renderer.domElement.style.cursor = 'default';
+    };
+
+    // Add event listeners
+    renderer.domElement.addEventListener('mousedown', handleMouseDown);
     renderer.domElement.addEventListener('mousemove', handleMouseMove);
+    renderer.domElement.addEventListener('mouseup', handleMouseUp);
+    renderer.domElement.addEventListener('mouseenter', handleMouseEnter);
+    renderer.domElement.addEventListener('mouseleave', handleMouseLeave);
 
     // Animation loop
     const animate = () => {
@@ -256,16 +291,18 @@ const Context = () => {
       
       const time = Date.now() * 0.001;
       
-      // Auto rotation
-      globe.rotation.y += 0.003;
-      continentGroup.rotation.y += 0.003;
+      // Auto rotation (only when not dragging)
+      if (!isDragging) {
+        currentRotation.y += 0.003;
+        globe.rotation.y = currentRotation.y;
+        continentGroup.rotation.y = currentRotation.y;
+        
+        // Apply damping to rotation velocity
+        rotationVelocity.x *= 0.95;
+        rotationVelocity.y *= 0.95;
+      }
+      
       atmosphere.rotation.y += 0.002;
-
-      // Mouse interaction with smooth interpolation
-      globe.rotation.x += (targetRotationX - globe.rotation.x) * 0.05;
-      globe.rotation.y += (targetRotationY - globe.rotation.y) * 0.05;
-      continentGroup.rotation.x += (targetRotationX - continentGroup.rotation.x) * 0.05;
-      continentGroup.rotation.y += (targetRotationY - continentGroup.rotation.y) * 0.05;
 
       // Animate flowing lines with wave effect
       flowingLines.forEach((line, index) => {
@@ -306,20 +343,21 @@ const Context = () => {
 
     // Cleanup function
     return () => {
-      // Reset initialization flag
       isInitialized.current = false;
       
-      // Remove event listener
+      // Remove event listeners
       if (renderer.domElement) {
+        renderer.domElement.removeEventListener('mousedown', handleMouseDown);
         renderer.domElement.removeEventListener('mousemove', handleMouseMove);
+        renderer.domElement.removeEventListener('mouseup', handleMouseUp);
+        renderer.domElement.removeEventListener('mouseenter', handleMouseEnter);
+        renderer.domElement.removeEventListener('mouseleave', handleMouseLeave);
       }
       
-      // Cancel animation
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
       
-      // Clean up Three.js objects
       if (scene) {
         scene.traverse((child) => {
           if (child.geometry) {
@@ -336,17 +374,15 @@ const Context = () => {
         scene.clear();
       }
       
-      // Remove renderer from DOM
       if (globeRef.current && renderer.domElement && globeRef.current.contains(renderer.domElement)) {
         globeRef.current.removeChild(renderer.domElement);
       }
       
-      // Dispose renderer
       if (renderer) {
         renderer.dispose();
       }
     };
-  }, []); // Empty dependency array to run only once
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -383,47 +419,92 @@ const Context = () => {
     message: ''
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
+    // Clear any previous error messages when user starts typing
+    if (result && !result.includes("Successfully")) {
+      setResult("");
+    }
   };
 
-  const onSubmit = async () => {
-    if (!formData.full_name || !formData.email || !formData.message) {
-      setResult("Please fill in all fields");
+  const validateForm = () => {
+    if (!formData.full_name.trim()) {
+      setResult("Please enter your name");
+      return false;
+    }
+    if (!formData.email.trim()) {
+      setResult("Please enter your email");
+      return false;
+    }
+    if (!formData.message.trim()) {
+      setResult("Please enter your message");
+      return false;
+    }
+    
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setResult("Please enter a valid email address");
+      return false;
+    }
+    
+    return true;
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
       return;
     }
 
-    setResult("Sending...");
+    if (!webform_id) {
+      setResult("Configuration error: Web form ID is missing");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setResult("Sending your message...");
 
     const formDataToSend = new FormData();
     formDataToSend.append("access_key", webform_id);
-    formDataToSend.append("full_name", formData.full_name);
-    formDataToSend.append("email", formData.email);
-    formDataToSend.append("message", formData.message);
+    formDataToSend.append("name", formData.full_name.trim());
+    formDataToSend.append("email", formData.email.trim());
+    formDataToSend.append("message", formData.message.trim());
+    formDataToSend.append("from_name", formData.full_name.trim());
+    formDataToSend.append("subject", "New Contact Form Submission");
     
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: {
-          "Accept": "application/json",
-        },
         body: formDataToSend,
       });
 
       const data = await response.json();
 
-      if (response.ok && data.success) {
-        setResult("Form Submitted Successfully");
+      if (data.success) {
+        setResult("✅ Message sent successfully! I'll get back to you soon.");
         setFormData({ full_name: '', email: '', message: '' });
+        
+        // Clear success message after 5 seconds
+        setTimeout(() => {
+          setResult("");
+        }, 5000);
       } else {
-        setResult(data.message || "Submission failed. Please check your input.");
+        console.error("Form submission error:", data);
+        setResult(data.message || "❌ Failed to send message. Please try again.");
       }
     } catch (error) {
-      setResult("Network error. Please try again.");
+      console.error("Network error:", error);
+      setResult("❌ Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -434,7 +515,7 @@ const Context = () => {
     { name: "Twitter", url: "https://x.com/abhayga615785", color: "#1da1f2", icon: twitter },
     { name: "LeetCode", url: "https://leetcode.com/u/abhaygarg5684", color: "#ffa116", icon: leetcode },
     { name: "CodeForces", url: "https://codeforces.com/profile/abhaygarg354", color: "#1f8acb", icon: codeforces },
-    { name: "GitHub", url: "https://github.com/abhaygarg3504", color: "#333", icon: github }
+    { name: "GitHub", url: "https://github.com/abhaygarg3504", color: "#333", icon: github },
   ];
 
   return (
@@ -461,8 +542,8 @@ const Context = () => {
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center text-2xl font-bold">
-                AG
+              <div>
+                <img className="w-20 h-20 rounded-full items-center justify-center text-2xl" src={Profile} alt="" />
               </div>
             </motion.div>
 
@@ -508,6 +589,12 @@ const Context = () => {
                 </motion.a>
               ))}
             </motion.div>
+            <motion.button
+            className='bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105'
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}>
+              <a target='_blank' href='https://drive.google.com/drive/folders/1_eppKRrxoJgKaV1D268VXbWhuStTY1Z1?usp=sharing'>View My Resume</a>
+            </motion.button>
 
             {/* Enhanced Globe */}
             <motion.div
@@ -519,16 +606,17 @@ const Context = () => {
               <div className="relative">
                 <div 
                   ref={globeRef} 
-                  className="w-96 h-96 cursor-pointer"
+                  className="w-96 h-96 cursor-grab active:cursor-grabbing"
                   style={{ 
                     background: 'radial-gradient(circle at 30% 30%, rgba(0, 255, 136, 0.1) 0%, rgba(0, 0, 0, 0.9) 100%)',
                     borderRadius: '50%',
                     border: '2px solid rgba(0, 255, 136, 0.3)',
-                    boxShadow: '0 0 50px rgba(0, 255, 136, 0.2), inset 0 0 50px rgba(0, 255, 136, 0.1)'
+                    boxShadow: '0 0 50px rgba(0, 255, 136, 0.2), inset 0 0 50px rgba(0, 255, 136, 0.1)',
+                    userSelect: 'none'
                   }}
                 />
-                <div className="absolute inset-0 rounded-full border-2 border-blue-400/20 animate-pulse" />
-                <div className="absolute inset-2 rounded-full border border-green-400/30 animate-pulse" style={{ animationDelay: '0.5s' }} />
+                <div className="absolute inset-0 rounded-full border-2 border-blue-400/20 animate-pulse pointer-events-none" />
+                <div className="absolute inset-2 rounded-full border border-green-400/30 animate-pulse pointer-events-none" style={{ animationDelay: '0.5s' }} />
               </div>
             </motion.div>
           </div>
@@ -540,7 +628,7 @@ const Context = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.8, duration: 0.8 }}
           >
-            <div className={`flex flex-col gap-6 rounded-xl p-8 border ${
+            <form onSubmit={onSubmit} className={`flex flex-col gap-6 rounded-xl p-8 border ${
               theme === 'dark' ? 'bg-gray-900/50 border-gray-800' : 'bg-white/50 border-gray-200'
             } backdrop-blur-sm`}>
               <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
@@ -549,7 +637,7 @@ const Context = () => {
 
               <div>
                 <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-                  Your Name
+                  Your Name *
                 </label>
                 <input 
                   className={`w-full h-12 px-4 rounded-lg text-lg border focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200 ${
@@ -560,13 +648,14 @@ const Context = () => {
                   name="full_name"
                   value={formData.full_name}
                   onChange={handleInputChange}
-                  required 
+                  required
+                  disabled={isSubmitting}
                 />
               </div>
 
               <div>
                 <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-                  Email
+                  Email *
                 </label>
                 <input 
                   type="email" 
@@ -577,13 +666,14 @@ const Context = () => {
                   className={`w-full h-12 px-4 rounded-lg text-lg border focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200 ${
                     theme === 'dark' ? 'bg-gray-800 border-gray-700 text-gray-300' : 'bg-gray-100 border-gray-300 text-gray-900'
                   }`} 
-                  required 
+                  required
+                  disabled={isSubmitting}
                 />
               </div>
 
               <div>
                 <label className={`block text-sm font-medium mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-                  Write Your Message Here
+                  Write Your Message Here *
                 </label>
                 <textarea 
                   className={`w-full h-32 px-4 py-3 rounded-lg text-lg border focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200 resize-none ${
@@ -594,18 +684,23 @@ const Context = () => {
                   onChange={handleInputChange}
                   placeholder='Enter your message' 
                   required
+                  disabled={isSubmitting}
                 />
               </div>
 
               <motion.button 
-                className="w-full py-3 text-white font-semibold rounded-lg transition-all duration-200 bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 shadow-lg hover:shadow-xl" 
-                onClick={onSubmit}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                type="submit"
+                className={`w-full py-3 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl ${
+                  isSubmitting 
+                    ? 'bg-gray-500 cursor-not-allowed' 
+                    : 'bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700'
+                }`}
+                disabled={isSubmitting}
+                whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+                whileTap={!isSubmitting ? { scale: 0.98 } : {}}
               >
-                Submit
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </motion.button>
-
               {result && (
                 <motion.p 
                   className={`text-center py-2 px-4 rounded-lg ${
@@ -621,7 +716,7 @@ const Context = () => {
                   {result}
                 </motion.p>
               )}
-            </div>
+              </form>
           </motion.div>
         </motion.div>
       </motion.div>

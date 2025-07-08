@@ -128,7 +128,7 @@ const Hero = () => {
             className='text-3xl md:text-4xl lg:text-5xl font-bold'
             variants={itemVariants}
           >
-            <span className='bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 bg-clip-text text-transparent'>
+            <span className='bg-gradient-to-r  from-purple-500 via-pink-500 to-orange-500 bg-clip-text text-transparent'>
               I am Abhay Garg,
             </span>
             <span className={`block mt-2 text-2xl md:text-3xl lg:text-4xl font-medium ${
