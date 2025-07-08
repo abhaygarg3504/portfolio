@@ -98,7 +98,7 @@ const Services = () => {
         id='profile'
         className={`min-h-screen transition-all duration-500 ${
           theme === 'dark' 
-            ? 'bg-gradient-to-br from-slate-900 via-gray-900 to-purple-900 text-white' 
+          ? 'bg-gradient-to-br from-slate-900/90 via-gray-900/90 to-purple-900/90 text-white' 
             : 'bg-gradient-to-br from-white via-gray-50 to-purple-50 text-gray-900'
         }`}
         variants={containerVariants}

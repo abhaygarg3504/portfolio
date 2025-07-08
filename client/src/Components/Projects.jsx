@@ -285,9 +285,9 @@ const Projects = () => {
       <Navbar/>
       <div className={`min-h-screen transition-all duration-300 ${
       theme === 'dark' 
-        ? 'bg-gradient-to-br from-black via-gray-900 to-purple-600 text-white' 
-        : 'bg-white text-black'
-    }`}>
+       ? 'bg-gradient-to-br from-slate-900/90 via-gray-900/90 to-purple-900/90 text-white' 
+            : 'bg-gradient-to-br from-white via-gray-50 to-purple-50 text-gray-900'
+        }`}>
       <div className="px-4 py-16">
         {/* Header */}
         <motion.div

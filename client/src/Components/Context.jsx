@@ -528,7 +528,9 @@ const Context = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         className={`flex flex-col items-center px-6 md:px-12 lg:px-24 py-16 min-h-screen
-          ${theme === 'dark' ? 'bg-gradient-to-br from-black via-gray-900 to-purple-900 text-white' : 'bg-white text-gray-900'}`}
+          ${theme === 'dark' ? 'bg-gradient-to-br from-slate-900/90 via-gray-900/90 to-purple-900/90 text-white' 
+            : 'bg-gradient-to-br from-white via-gray-50 to-purple-50 text-gray-900'
+        }`}
       >
         <motion.div className='flex flex-col md:flex-row gap-12 w-full max-w-6xl'>
           {/* Left side - Profile and Globe */}

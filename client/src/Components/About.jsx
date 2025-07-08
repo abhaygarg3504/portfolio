@@ -139,11 +139,10 @@ const About = () => {
           <Navbar/>
           <div className={`min-h-screen transition-all duration-300 ${
             theme === 'dark' 
-                ? 'bg-gradient-to-br from-black via-gray-900 to-purple-900 text-white' 
-                : 'bg-gradient-to-br from-gray-50 to-white text-gray-900'
-        }`}>
-          
-
+                ? 'bg-gradient-to-br from-slate-900/90 via-gray-900/90 to-purple-900/90 text-white' 
+            : 'bg-gradient-to-br from-white via-gray-50 to-purple-50 text-gray-900'
+        }`}
+        >
             <div className="py-16 px-6">
                 {/* Header Section */}
                 <div className="text-center mb-16">
